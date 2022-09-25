@@ -1,0 +1,3 @@
+/mnt/c/Users/Eden/CLionProjects/WSL/cmake-build-wsl_profile/CMakeFiles/WSL.dir
+/mnt/c/Users/Eden/CLionProjects/WSL/cmake-build-wsl_profile/CMakeFiles/edit_cache.dir
+/mnt/c/Users/Eden/CLionProjects/WSL/cmake-build-wsl_profile/CMakeFiles/rebuild_cache.dir

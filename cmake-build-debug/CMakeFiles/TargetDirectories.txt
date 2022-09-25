@@ -1,0 +1,3 @@
+/mnt/c/Users/Eden/CLionProjects/WSL/cmake-build-debug/CMakeFiles/WSL.dir
+/mnt/c/Users/Eden/CLionProjects/WSL/cmake-build-debug/CMakeFiles/edit_cache.dir
+/mnt/c/Users/Eden/CLionProjects/WSL/cmake-build-debug/CMakeFiles/rebuild_cache.dir
