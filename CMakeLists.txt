@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.23)
-project(WSL C)
+cmake_minimum_required(VERSION 3.16)
+project(wsl_black_jack_C99 C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(WSL main.c Card.h Card.c CardList.h CardList.c)
+add_executable(wsl_black_jack_C99 main.c Card.h CardList.h Card.c CardList.c)

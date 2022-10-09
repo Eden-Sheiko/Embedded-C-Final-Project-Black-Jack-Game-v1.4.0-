@@ -1,5 +1,5 @@
 //
-// Created by Eden on 23/09/2022.
+// Created by edens on 27/09/2022.
 //
 
 #include "CardList.h"
@@ -38,7 +38,7 @@ void init_card_deck(cardlist_t *deck)
 }
 
 card_t *get_random_card_from_deck(cardlist_t* list) {
-    int index = rand() % list -> len; //52 // if rand 0 its dead
+    int index = rand() % list -> len;
     card_t* tmp = NULL;
     if (index==0)
     {
@@ -58,15 +58,6 @@ card_t *get_random_card_from_deck(cardlist_t* list) {
     list -> len--;
     tmp -> next = NULL;
     return tmp;
-}
-
-void delete_data_node(card_t* ptr)
-{
-    card_t *tmp = ptr;
-    tmp=tmp->next;
-    ptr->data=tmp->data;
-    ptr->next=tmp->next;
-    free(tmp);
 }
 
 void push_card_to_list(cardlist_t* list,card_t *data) {
@@ -123,17 +114,6 @@ void print_dealer_deck_half(cardlist_t *list)
     }
 }
 
-void print_list(cardlist_t *list)
-{
-    card_t *ptr = list -> head;
-    while (ptr)
-    {
-        printf("%d -> ",ptr->data);
-        ptr = ptr->next;
-    }
-    printf("NULL \n");
-}
-
 void free_init(cardlist_t *list)
 {
     card_t *head = list -> head;
@@ -144,6 +124,7 @@ void free_init(cardlist_t *list)
         free(tmp);
     }
     list -> head = NULL;
+    list->len=0;
 }
 
 bool is_black_jack_player(cardlist_t *list)
@@ -205,7 +186,7 @@ bool is_bust(cardlist_t *list)
             ptr=ptr->next;
             if(sum>21)
             {
-               return 1;
+                return 1;
             }
         }
         else{
@@ -230,7 +211,7 @@ bool is_bust(cardlist_t *list)
     return 0;
 }
 
-int return_sum(cardlist_t *list) // bad
+int return_sum(cardlist_t *list)
 {
     int sum=0;
     card_t *ptr = list->head;
