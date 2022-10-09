@@ -24,23 +24,19 @@ void getting_card_dealer(cardlist_t* ,cardlist_t*);
 
 void print_Initial_deal(cardlist_t*,cardlist_t*);
 
-void is_black_jack_check(unsigned int,unsigned int*,unsigned int,unsigned int*,cardlist_t*,cardlist_t*,cardlist_t*);
+void is_black_jack_check(unsigned int,unsigned int*,unsigned int,unsigned int*,cardlist_t*,cardlist_t*);
 
-void is_bust_check(cardlist_t*,cardlist_t*,cardlist_t*,unsigned int *);
+void is_bust_check(unsigned int *);
 
 void print_player_score(cardlist_t *);
 void print_dealer_score(cardlist_t *);
 
-void hit_or_stand(cardlist_t*,cardlist_t*,cardlist_t*,unsigned int *);
-//******************************
-//Reset_cards method
-//gets 3 pointers to cardlist_t
-//free init to card lists
-//******************************
-void Reset_cards(cardlist_t *,cardlist_t *,cardlist_t *);
+void hit_or_stand(cardlist_t*,cardlist_t*,unsigned int *);
+
+void Reset_cards(cardlist_t *dealer_hand, cardlist_t *player_hand);
 
 
-int main(int argc,char **argv)
+int main(void)
 {
     game_menu();
     fflush(stdin);
@@ -50,8 +46,8 @@ int main(int argc,char **argv)
     unsigned int cash = 1000;
     unsigned int pot = 0;
 
-    unsigned int player_sum = 0;
-    unsigned int dealer_sum = 0;
+    unsigned int player_sum;
+    unsigned int dealer_sum;
 
     int player_choice=0;
 
@@ -63,6 +59,7 @@ int main(int argc,char **argv)
     init_card_deck(&deck);
 
     while (1) {
+
         print_new_game();
         betting(cash,&cash,pot,&pot);
 
@@ -77,11 +74,11 @@ int main(int argc,char **argv)
         bool is_black_jack = is_black_jack_player(&player_hand);
         if(is_black_jack == 1)
         {
-            is_black_jack_check(cash,&cash,pot,&pot,&deck,&player_hand,&dealer_hand);
+            is_black_jack_check(cash,&cash,pot,&pot,&player_hand,&dealer_hand);
         }
         else
         {
-            hit_or_stand(&deck,&player_hand,&dealer_hand,&pot);
+            hit_or_stand(&deck,&player_hand,&pot);
             // if NO PRESSED
             print_player_deck(&player_hand);
             print_dealer_deck(&dealer_hand);
@@ -92,8 +89,6 @@ int main(int argc,char **argv)
             fflush(stdin);
 
             print_player_score(&player_hand);
-
-
 
             while(dealer_sum<17)
             {
@@ -107,31 +102,31 @@ int main(int argc,char **argv)
             {
                 print_dealer_wins();
                 pot = 0;
-                Reset_cards(&deck,&dealer_hand,&player_hand);
+                Reset_cards(&dealer_hand, &player_hand);
             }
             else if(dealer_sum>21)
             {
                 print_player_wins();
                 print_dealer_bust();
-                Reset_cards(&deck,&dealer_hand,&player_hand);
+                Reset_cards(&dealer_hand, &player_hand);
                 cash = cash + (pot * 2);
                 pot = 0;
             }
             else if (dealer_sum <= 21 && dealer_sum == player_sum)
             {
                 print_draw();
-                Reset_cards(&deck,&dealer_hand,&player_hand);
+                Reset_cards(&dealer_hand, &player_hand);
             }
             else if (dealer_sum <= 21 && (dealer_sum > player_sum))
             {
                 print_dealer_wins();
                 pot = 0;
-                Reset_cards(&deck,&dealer_hand,&player_hand);
+                Reset_cards(&dealer_hand, &player_hand);
             }
             else if (dealer_sum <= 21 && dealer_sum < player_sum)
             {
                 print_player_wins();
-                Reset_cards(&deck,&dealer_hand,&player_hand);
+                Reset_cards(&dealer_hand, &player_hand);
                 cash = cash + (pot * 2);
                 pot = 0;
             }
@@ -139,7 +134,7 @@ int main(int argc,char **argv)
 
         print_status_print(cash,pot);
 
-        printf("would you like to continue? press 0 for yes or anything else for no\n");
+        printf("would you like to continue? press 0 for yes or any number for no\n");
         scanf("%d",&player_choice);
         while (getchar() != '\n');
         fflush(stdout);
@@ -212,7 +207,7 @@ void betting(unsigned int cash,unsigned int *cash_return,unsigned int pot,unsign
 }
 
 
-void Reset_cards(cardlist_t *deck,cardlist_t *dealer_hand,cardlist_t *player_hand)
+void Reset_cards(cardlist_t *dealer_hand, cardlist_t *player_hand)
 {
     free_init(dealer_hand);
     free_init(player_hand);
@@ -270,13 +265,13 @@ void print_Initial_deal(cardlist_t *player_hand,cardlist_t *dealer_hand)
 }
 
 void is_black_jack_check(unsigned int cash,unsigned int *cash_return,unsigned int pot,unsigned int *pot_return,
-                         cardlist_t *deck,cardlist_t *dealer_hand,cardlist_t *player_hand)
+                         cardlist_t *dealer_hand,cardlist_t *player_hand)
 {
     cash=cash+(pot*2.5);
     pot = 0;
     *cash_return=cash;
     *pot_return=pot;
-    Reset_cards(deck,dealer_hand,player_hand);
+    Reset_cards(dealer_hand, player_hand);
 }
 
 void print_player_score(cardlist_t *player_hand)
@@ -288,7 +283,7 @@ void print_player_score(cardlist_t *player_hand)
     printf("++++++++++++++++++++++++++++++\n");
 }
 
-void hit_or_stand(cardlist_t *deck,cardlist_t *player_hand,cardlist_t *dealer_hand,unsigned int *pot_return)
+void hit_or_stand(cardlist_t *deck,cardlist_t *player_hand,unsigned int *pot_return)
 {
     while (1)
     {
@@ -310,7 +305,7 @@ void hit_or_stand(cardlist_t *deck,cardlist_t *player_hand,cardlist_t *dealer_ha
 
             bool bust = is_bust(player_hand);
             if (bust == 1) {
-                is_bust_check(deck, player_hand, dealer_hand, pot_return);
+                is_bust_check(pot_return);
                 return;
             }
             break;
@@ -321,7 +316,7 @@ void hit_or_stand(cardlist_t *deck,cardlist_t *player_hand,cardlist_t *dealer_ha
     }
 }
 
-void is_bust_check(cardlist_t *deck,cardlist_t *player_hand,cardlist_t *dealer_hand,unsigned int *pot_return)
+void is_bust_check(unsigned int *pot_return)
 {
     *pot_return = 0;
     print_bust();

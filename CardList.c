@@ -4,6 +4,7 @@
 
 #include "CardList.h"
 #include <stdlib.h>
+
 const char *suits[SUITS] ={"Spades","Hearts","Clubs","Diamonds"};
 
 const char *ranks[RANKS+1]={"None","Ace","2","3","4",
@@ -83,8 +84,6 @@ void print_player_deck(cardlist_t *list)
     while(ptr)
     {
         printf("     %s of %s\n", ranks[Card_get_rank(ptr)], suits[Card_get_suit(ptr)]);
-        //printf("---------------\n");
-        //printf(" Location Debug %d\n\n", ptr->data);
         ptr=ptr->next;
     }
 }
@@ -96,8 +95,6 @@ void print_dealer_deck(cardlist_t *list)
     while(ptr)
     {
         printf("     %s of %s\n", ranks[Card_get_rank(ptr)], suits[Card_get_suit(ptr)]);
-        //printf("---------------\n");
-        //printf(" Location Debug %d\n\n", ptr->data);
         ptr=ptr->next;
     }
 }
@@ -108,8 +105,6 @@ void print_dealer_deck_half(cardlist_t *list)
     while(1)
     {
         printf("     %s of %s\n", ranks[Card_get_rank(ptr)], suits[Card_get_suit(ptr)]);
-        //printf("---------------\n");
-        //printf(" Location Debug %d\n\n", ptr->data);
         break;
     }
 }

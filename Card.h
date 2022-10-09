@@ -51,5 +51,4 @@ void Card_set_rank(card_t* card, uint8_t rank);
 void Card_set_suit(card_t* card, uint8_t suit);
 
 
-
 #endif //WSL_BLACK_JACK_C99_CARD_H
